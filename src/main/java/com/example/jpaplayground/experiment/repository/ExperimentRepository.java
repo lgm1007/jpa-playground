@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface ExperimentRepository extends JpaRepository<Experiment, Long> {
 	Optional<Experiment> findByInsertField(Long insertField);
 
-	@Query("select e from Experiment e where e.updateField = :updateField")
-	Optional<Experiment> findByUpdateField(Long updateField);
+	@Query("select e from Experiment e where e.insertField = :insertField")
+	Optional<Experiment> findByInsertFieldByQueryDsl(Long insertField);
 }
