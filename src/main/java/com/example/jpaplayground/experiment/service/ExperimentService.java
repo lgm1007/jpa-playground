@@ -4,6 +4,7 @@ import com.example.jpaplayground.experiment.entity.Experiment;
 import com.example.jpaplayground.experiment.repository.ExperimentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -13,16 +14,16 @@ public class ExperimentService {
 
 	// ***** Q1. Start *****
 	@Transactional
-	public void question1(final Long experimentId) {
-		Experiment experiment = Experiment.from(experimentId).get();
-		experimentRepository.save(experiment);	// select, insert
+	public void question1() {
+		Experiment experiment = Experiment.create().get();
+		final Experiment saved = experimentRepository.save(experiment);	// insert (만약 entity에 id 필드값이 초기화되어 있으면 select 도 함)
 
-		question1Sub(experiment.getId());
+		question1Sub(saved.getId());
 	}	// question1() 완료 시 update
 
 	@Transactional
 	public void question1Sub(final Long experimentId) {
-		Experiment experiment = experimentRepository.findById(experimentId).orElse(null);
+		Experiment experiment = experimentRepository.findById(experimentId).orElse(null);	// select 안 됨 (이미 save에서 같은 entity가 영속화 되어있기 때문)
 		final Long updateField = 20L;
 
 		experiment.setUpdateField(updateField);
@@ -31,11 +32,11 @@ public class ExperimentService {
 
 	// ***** Q2. Start *****
 	@Transactional
-	public void question2(final Long experimentId) {
-		Experiment experiment = Experiment.from(experimentId).get();
-		experimentRepository.save(experiment);	// select, insert
+	public void question2() {
+		Experiment experiment = Experiment.create().get();
+		final Experiment saved = experimentRepository.save(experiment);	// insert
 
-		question2Sub(experiment.getId());
+		question2Sub(saved.getId());
 	}	// question2() 완료 시 update
 
 	public void question2Sub(final Long experimentId) {
@@ -47,11 +48,11 @@ public class ExperimentService {
 	// ***** Q2. Finish *****
 
 	// ***** Q3. Start *****
-	public void question3(final Long experimentId) {
-		Experiment experiment = Experiment.from(experimentId).get();
-		experimentRepository.save(experiment);    // select, insert
+	public void question3() {
+		Experiment experiment = Experiment.create().get();
+		final Experiment saved = experimentRepository.save(experiment);// insert
 
-		question3Sub(experiment.getId());
+		question3Sub(saved.getId());
 	}
 
 	@Transactional
@@ -66,6 +67,24 @@ public class ExperimentService {
 	// ***** Q4. Start *****
 	@Transactional
 	public void question4() {
+		Experiment experiment = Experiment.create().get();
+		final Experiment saved = experimentRepository.save(experiment);	// insert
+
+		question4Sub(saved.getId());
+	}	// question4() 완료 시 update
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void question4Sub(final Long experimentId) {
+		Experiment experiment = experimentRepository.findById(experimentId).orElse(null);
+		final Long updateField = 20L;
+
+		experiment.setUpdateField(updateField);
+	}
+	// ***** Q4. Finish *****
+
+	// ***** Q5. Start *****
+	@Transactional
+	public void question5() {
 		// DB 같은 행 1
 		final Experiment experiment = experimentRepository.findById(5L).orElse(null);	// select
 
@@ -82,11 +101,11 @@ public class ExperimentService {
 		// DB 같은 행 2
 
 	}
-	// ***** Q4. Finish *****
+	// ***** Q5. Finish *****
 
-	// ***** Q5. Start *****
+	// ***** Q6. Start *****
 	@Transactional
-	public void question5() {
+	public void question6() {
 		/**
 		 * INSERT INTO Experiment (id, insertField, updateField) VALUES (5, 20, 30);
 		 * INSERT INTO Experiment (id, insertField, updateField) VALUES (6, 40, 50);
@@ -113,6 +132,6 @@ public class ExperimentService {
 		experiment4.setUpdateField(45L);
 		// DB 같은 행 2
 
-	}	// question5() 완료 시 update
-	// ***** Q5. Finish *****
+	}	// question6() 완료 시 update
+	// ***** Q6. Finish *****
 }

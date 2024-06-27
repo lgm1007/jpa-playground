@@ -21,9 +21,8 @@ public class Experiment {
 	@Setter
 	private Long updateField;
 
-	public static Supplier<Experiment> from(final Long id) {
+	public static Supplier<Experiment> create() {
 		return () -> Experiment.builder()
-			.id(id)
 			.build();
 	}
 }
