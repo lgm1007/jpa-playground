@@ -83,8 +83,25 @@ public class ExperimentService {
 	// ***** Q4. Finish *****
 
 	// ***** Q5. Start *****
-	@Transactional
 	public void question5() {
+		Experiment experiment = Experiment.create().get();
+		final Experiment saved = experimentRepository.save(experiment);	// insert
+
+		question5Sub(saved.getId());
+	}
+
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void question5Sub(final Long experimentId) {
+		Experiment experiment = experimentRepository.findById(experimentId).orElse(null);
+		final Long updateField = 20L;
+
+		experiment.setUpdateField(updateField);
+	}	// update 안 함 X
+	// ***** Q5. Finish *****
+
+	// ***** Q6. Start *****
+	@Transactional
+	public void question6() {
 		// DB 같은 행 1
 		final Experiment experiment = experimentRepository.findById(5L).orElse(null);	// select
 
@@ -101,11 +118,11 @@ public class ExperimentService {
 		// DB 같은 행 2
 
 	}
-	// ***** Q5. Finish *****
+	// ***** Q6. Finish *****
 
-	// ***** Q6. Start *****
+	// ***** Q7. Start *****
 	@Transactional
-	public void question6() {
+	public void question7() {
 		/**
 		 * INSERT INTO Experiment (id, insertField, updateField) VALUES (5, 20, 30);
 		 * INSERT INTO Experiment (id, insertField, updateField) VALUES (6, 40, 50);
@@ -132,6 +149,6 @@ public class ExperimentService {
 		experiment4.setUpdateField(45L);
 		// DB 같은 행 2
 
-	}	// question6() 완료 시 update
-	// ***** Q6. Finish *****
+	}	// question7() 완료 시 update
+	// ***** Q7. Finish *****
 }
