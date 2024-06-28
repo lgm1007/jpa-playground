@@ -13,37 +13,37 @@ public class ExperimentApi {
 	private final ExperimentService experimentService;
 
 	@GetMapping("/q1")
-	public ResponseEntity requestQuestion1() {
+	public ResponseEntity<String> requestQuestion1() {
 		experimentService.question1();
 		return ResponseEntity.ok("ok");
 	}
 
 	@GetMapping("/q2")
-	public ResponseEntity requestQuestion2() {
+	public ResponseEntity<String> requestQuestion2() {
 		experimentService.question2();
 		return ResponseEntity.ok("ok");
 	}
 
 	@GetMapping("/q3")
-	public ResponseEntity requestQuestion3() {
+	public ResponseEntity<String> requestQuestion3() {
 		experimentService.question3();
 		return ResponseEntity.ok("ok");
 	}
 
 	@GetMapping("/q4")
-	public ResponseEntity requestQuestion4() {
+	public ResponseEntity<String> requestQuestion4() {
 		experimentService.question4();
 		return ResponseEntity.ok("ok");
 	}
 
 	@GetMapping("/q5")
-	public ResponseEntity requestQuestion5() {
+	public ResponseEntity<String> requestQuestion5() {
 		experimentService.question5();
 		return ResponseEntity.ok("ok");
 	}
 
 	@GetMapping("/q6")
-	public ResponseEntity requestQuestion6() {
+	public ResponseEntity<String> requestQuestion6() {
 		experimentService.question6();
 		return ResponseEntity.ok("ok");
 	}
